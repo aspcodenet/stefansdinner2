@@ -9,21 +9,38 @@ public:
     virtual void act(){
         std::cout << "Hej" << std::endl;
     }
+    virtual void mightLevelUp(){
+
+    }
 };
 
 
 class Human : public GameObject{
 public:
     Human(std::string name):name(name){
-
     }
     void act() override{
         std::string actions[]={"eats","drinks","burps"};
         int index = rand()%3;
+        if(index == 2){
+            burpsInARow++;
+        }
+         else{
+            burpsInARow = 0;
+         }
+         //latest.push_back(actions[index]);
         std::cout << name << " " << actions[index] << std::endl;
     }   
+    void mightLevelUp() override{
+        if(burpsInARow >= 3) {
+            level++;
+    }
+    }
     std::string name;
 private:
+    int level = 1;
+    unsigned char burpsInARow = 0;
+    //std::vector<std::string> latest;
 };
 
 
@@ -62,6 +79,7 @@ int main(){
     while(1){
         for(GameObject *gameObj : gameObjects){
             gameObj->act();
+            gameObj->mightLevelUp();
         }
     }
 }
